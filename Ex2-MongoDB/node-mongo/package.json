@@ -1,0 +1,29 @@
+{
+  "name": "node-mongo",
+  "version": "1.0.0",
+  "description": "Mongo",
+  "main": "index.js",
+  "scripts": {
+    "test": "mongp",
+    "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karthiarjun/NodeJSEX2.git"
+  },
+  "keywords": [
+    "node",
+    "mongo"
+  ],
+  "author": "Karthik Arjun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karthiarjun/NodeJSEX2/issues"
+  },
+  "homepage": "https://github.com/karthiarjun/NodeJSEX2#readme",
+  "dependencies": {
+    "assert": "^1.4.1",
+    "asserts": "^4.0.2",
+    "mongodb": "^2.2.33"
+  }
+}
