@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "bluebird": "^3.5.1",
-    "mongoose": "^4.13.4"
+    "mongoose": "^4.13.4",
+    "mongoose-currency": "^0.2.0"
   }
 }

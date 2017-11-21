@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
+
+require('mongoose-currency').loadType(mongoose);
+var Currency = mongoose.Types.Currency;
 
 var commentSchema = new Schema({
     rating:  {

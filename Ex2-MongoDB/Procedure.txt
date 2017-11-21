@@ -1,0 +1,2 @@
+Mongo DB up and running:
+mongod --dbpath=data
