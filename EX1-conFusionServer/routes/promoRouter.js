@@ -1,61 +1,80 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
-const promotionRouter = express.Router();
+const promo = require('../models/promo');
 
-promotionRouter.use(bodyParser.json());
+const promoRouter = express.Router();
 
-//Promotion
-promotionRouter.route('/')
-.all((req,res,next) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    next();
+promoRouter.use(bodyParser.json());
+
+promoRouter.route('/')
+.get((req,res,next) => {
+    promo.find({})
+    .then((dishes) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(dishes);
+    }, (err) => next(err))
+    .catch((err) => next(err));
 })
-.get( (req, res, next) => {
-	res.end('call get Promotion: ');
+.post((req, res, next) => {
+    promo.create(req.body)
+    .then((leader) => {
+        console.log('Dish Created ', leader);
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(leader);
+    }, (err) => next(err))
+    .catch((err) => next(err));
 })
-
-.post( (req, res, next) => {
-		res.end('Promotion name: '+ req.body.promoName + ' Promo description: ' + req.body.promoDesc);
-
+.put((req, res, next) => {
+    res.statusCode = 403;
+    res.end('PUT operation not supported on /dishes');
 })
-
-.put( (req, res, next) => {
-	res.status = 403;
-	res.end('403 no supported for dishes');
-})
-
-.delete( (req, res, next) => {
-	res.end('Deleting promotion '+req.body.promoName);
+.delete((req, res, next) => {
+    promo.remove({})
+    .then((resp) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(resp);
+    }, (err) => next(err))
+    .catch((err) => next(err));    
 });
 
-//PromotionID
-
-promotionRouter.route('/:promoid')
-.all((req,res,next) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/plain');
-    next();
+promoRouter.route('/:promoId')
+.get((req,res,next) => {
+    promo.findById(req.params.promoId)
+    .then((dish) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(dish);
+    }, (err) => next(err))
+    .catch((err) => next(err));
 })
-.get( (req, res, next) => {
-	res.end('Promo ID: '+req.params.promoid+"  to you");
+.post((req, res, next) => {
+    res.statusCode = 403;
+    res.end('POST operation not supported on /promo/'+ req.params.promoId);
 })
-
-.post( (req, res, next) => {
-	res.status = 403;
-	res.end('403 no supported for dishes');
+.put((req, res, next) => {
+    promo.findByIdAndUpdate(req.params.promoId, {
+        $set: req.body
+    }, { new: true })
+    .then((dish) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(dish);
+    }, (err) => next(err))
+    .catch((err) => next(err));
 })
-
-.put( (req, res, next) => {
-	res.write('PromoID: '+req.params.promoid+'\n');
-	res.end('Promo desc '+req.body.promoDesc);
-})
-
-.delete( (req, res, next) => {
-	res.end('Deleting dish '+req.params.promoid);
+.delete((req, res, next) => {
+    promo.findByIdAndRemove(req.params.promoId)
+    .then((resp) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(resp);
+    }, (err) => next(err))
+    .catch((err) => next(err));
 });
 
-
-
-module.exports = promotionRouter;
+module.exports = promoRouter;
